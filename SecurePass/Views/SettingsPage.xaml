@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SecurePass.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:SecurePass.Controls">
+    <VerticalStackLayout Margin="5, 5, 5, 0">
+        <Label
+            HorizontalOptions="Start"
+            Text="Настройки генерации пароля"
+            VerticalOptions="Center"/>
+
+        <controls:SwitchWithLabel IsSwitched="True" Text="Использовать специальные символы"/>
+
+        <controls:SwitchWithLabel IsSwitched="True" Text="Использовать заглавые буквы"/>
+
+        <controls:SwitchWithLabel IsSwitched="True" Text="Использовать строчные буквы"/>
+
+        <controls:SwitchWithLabel IsSwitched="True" Text="Использовать цифры"/>
+
+        <Label
+            HorizontalOptions="Start"
+            Text="Длина пароля"
+            VerticalOptions="Center"/>
+
+        <BoxView
+            BackgroundColor="#e0e2ef"
+            HeightRequest="10"
+            HorizontalOptions="Fill"/>
+
+        <Switch IsToggled="True"/>
+
+        <Label
+            HorizontalOptions="Start"
+            Text="Использовать спец. символы"
+            VerticalOptions="Center"/>
+    </VerticalStackLayout>
+</ContentPage>

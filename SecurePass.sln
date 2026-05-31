@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36414.22 d17.14
+VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurePass", "SecurePass\SecurePass.csproj", "{8F56BF02-C2EC-4A14-8A8A-394EC7F49309}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurePass.VM", "MauiLib1\SecurePass.VM.csproj", "{031A34B5-5289-4777-8505-0961209A24EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurePass.Core", "SecurePass.Core\SecurePass.Core.csproj", "{1D554C1B-DBDB-4DD5-B971-5E3BBF32145F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,14 @@ Global
 		{8F56BF02-C2EC-4A14-8A8A-394EC7F49309}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F56BF02-C2EC-4A14-8A8A-394EC7F49309}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8F56BF02-C2EC-4A14-8A8A-394EC7F49309}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{031A34B5-5289-4777-8505-0961209A24EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{031A34B5-5289-4777-8505-0961209A24EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{031A34B5-5289-4777-8505-0961209A24EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{031A34B5-5289-4777-8505-0961209A24EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D554C1B-DBDB-4DD5-B971-5E3BBF32145F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D554C1B-DBDB-4DD5-B971-5E3BBF32145F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D554C1B-DBDB-4DD5-B971-5E3BBF32145F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D554C1B-DBDB-4DD5-B971-5E3BBF32145F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

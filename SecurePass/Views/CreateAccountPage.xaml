@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SecurePass.Views.CreateAccountPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Добавить пароль"
+    NavigationPage.HasBackButton="True">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding OnBackCommand}"/>
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding CreateAccountCommand}"
+            Order="Primary"
+            Priority="0"
+            Text="Сохранить"/>
+    </ContentPage.ToolbarItems>
+
+    <!--  Основное содержимое страницы  -->
+    <ScrollView Padding="24, 20, 24, 20">
+        <VerticalStackLayout Spacing="20">
+
+            <!--  Блок: Сайт или приложение  -->
+            <VerticalStackLayout Spacing="8">
+                <!--  Ярлык  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Сайт или приложение"
+                    TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                <!--  Поле для ввода сайта  -->
+                <Entry
+                    x:Name="WebsiteOrAppEntry"
+                    Margin="0, 0, 12, 0"
+                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
+                    Placeholder="Например: google.com"
+                    PlaceholderColor="{DynamicResource PlaceholderColor}"
+                    Text="{Binding AppName}"
+                    TextColor="{DynamicResource PrimaryTextColor}">
+                    <Entry.HeightRequest>48</Entry.HeightRequest>
+                </Entry>
+                <Button Text="Выбрать приложение"/>
+            </VerticalStackLayout>
+
+            <!--  Горизонтальный разделитель  -->
+            <BoxView
+                Margin="0, 10, 0, 10"
+                HeightRequest="3"
+                Color="{DynamicResource SeparatorColor}"/>
+
+            <!--  Дополнительные поля для пароля (можно добавить по желанию)  -->
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Логин / Email"
+                    TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                <Entry
+                    x:Name="UsernameEntry"
+                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
+                    HeightRequest="48"
+                    Placeholder="Введите логин или email"
+                    PlaceholderColor="{DynamicResource PlaceholderColor}"
+                    Text="{Binding Login}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Пароль"
+                    TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                <Entry
+                    x:Name="PasswordEntry"
+                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
+                    HeightRequest="48"
+                    IsPassword="True"
+                    Placeholder="Введите пароль"
+                    PlaceholderColor="{DynamicResource PlaceholderColor}"
+                    Text="{Binding Password}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
+
+                <Button Command="{Binding GeneratePasswordCommand}" Text="Сгенерировать пароль"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Заметки (необязательно)"
+                    TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                <Editor
+                    x:Name="NotesEditor"
+                    AutoSize="TextChanges"
+                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
+                    Placeholder="Дополнительная информация..."
+                    PlaceholderColor="{DynamicResource PlaceholderColor}"
+                    Text="{Binding Description}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
