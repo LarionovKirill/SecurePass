@@ -1,12 +1,25 @@
-﻿using SecurePass.VM.ViewModels;
+using Plugin.Maui.ScreenSecurity;
+using SecurePass.VM.ViewModels;
 
 namespace SecurePass.Views;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage(MainVM vm)
+	public MainPage(MainVM vm)
+	{
+		InitializeComponent();
+		BindingContext = vm;
+	}
+
+    protected override void OnAppearing()
     {
-        InitializeComponent();
-        BindingContext = vm;
+        base.OnAppearing();
+        ScreenSecurity.Default.ActivateScreenSecurityProtection();
+    }
+
+    protected override void OnDisappearing()
+    {
+        ScreenSecurity.Default.DeactivateScreenSecurityProtection();
+        base.OnDisappearing();
     }
 }

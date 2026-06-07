@@ -3,51 +3,28 @@
     x:Class="SecurePass.Views.StartPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Shell.NavBarIsVisible="False">
+
     <Grid>
-        <!--  Фоновый градиент  -->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <!-- Фоновый градиент -->
+        <Border>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#667eea"/>
+                    <GradientStop Offset="1" Color="#764ba2"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
 
-            <Border>
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Offset="0" Color="#667eea"/>
-                        <GradientStop Offset="1" Color="#764ba2"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
-
-            <!--  Декоративные круги на фоне  -->
-            <Ellipse
-                Margin="-100, -100, 0, 0"
-                Fill="#80ffffff"
-                HeightRequest="300"
-                HorizontalOptions="Start"
-                Opacity="0.1"
-                VerticalOptions="Start"
-                WidthRequest="300"/>
-            <Ellipse
-                Margin="0, 0, -50, -50"
-                Fill="#80ffffff"
-                HeightRequest="200"
-                HorizontalOptions="End"
-                Opacity="0.1"
-                VerticalOptions="End"
-                WidthRequest="200"/>
-        </Grid>
-
-        <!--  Основной контент  -->
         <ScrollView>
             <VerticalStackLayout
-                Padding="24, 60, 24, 40"
-                Spacing="30"
+                Padding="24"
+                Spacing="20"
                 VerticalOptions="Center">
 
-                <!--  Логотип и название  -->
-                <HorizontalStackLayout HorizontalOptions="Center">
+                <!-- Логотип -->
+                <HorizontalStackLayout HorizontalOptions="Center" Margin="0,0,0,20">
                     <Image
                         HeightRequest="48"
                         Source="sheld_icon_64x64.png"
@@ -59,111 +36,78 @@
                         TextColor="White"/>
                 </HorizontalStackLayout>
 
-                <!--  Карточка входа  -->
-                <Border
-                    Margin="0, 20, 0, 0"
+                <!-- Карточка входа -->
+                <Frame
                     Padding="20"
                     BackgroundColor="White"
-                    StrokeShape="RoundRectangle 20"
-                    StrokeThickness="0">
+                    CornerRadius="20"
+                    HasShadow="True">
 
-                    <VerticalStackLayout Spacing="20">
+                    <VerticalStackLayout Spacing="16">
 
-                        <!--  Поле для мастер-пароля  -->
-                        <VerticalStackLayout Spacing="8">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="12"
-                                Text="МАСТЕР-ПАРОЛЬ"
-                                TextColor="#666666"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="Вход в приложение"
+                            TextColor="#333333"/>
 
-                            <Frame
-                                Padding="0"
-                                BorderColor="#E0E0E0"
-                                CornerRadius="10"
-                                HasShadow="False">
-                                <Grid Padding="12, 8" ColumnDefinitions="Auto,*,Auto">
+                        <!-- Поле ввода мастер-пароля -->
+                        <Entry
+                            Text="{Binding MasterPassword}"
+                            IsPassword="True"
+                            Placeholder="Введите мастер-пароль"
+                            HeightRequest="50">
+                            <Entry.Behaviors>
+                                <toolkit:EventToCommandBehavior
+                                    EventName="Completed"
+                                    Command="{Binding LoginCommand}"/>
+                            </Entry.Behaviors>
+                        </Entry>
 
-                                    <!--  Иконка замка  -->
-                                    <Image
-                                        Grid.Column="0"
-                                        HeightRequest="20"
-                                        HorizontalOptions="Center"
-                                        Source="lock_icon.png"
-                                        VerticalOptions="Center"
-                                        WidthRequest="20"/>
-
-                                    <!--  Поле ввода пароля  -->
-                                    <Entry
-                                        x:Name="MasterPasswordEntry"
-                                        Grid.Column="1"
-                                        BackgroundColor="Transparent"
-                                        ClearButtonVisibility="WhileEditing"
-                                        IsPassword="True"
-                                        Text="{Binding MasterPassword}"
-                                        Placeholder="Введите мастер-пароль"
-                                        TextColor="#333333"/>
-
-                                    <!--  Переключатель показа пароля  -->
-                                    <Button
-                                        x:Name="TogglePasswordButton"
-                                        Grid.Column="2"
-                                        BackgroundColor="Transparent"
-                                        HeightRequest="30"
-                                        Text="👁"
-                                        TextColor="#999999"
-                                        WidthRequest="30"/>
-                                </Grid>
-                            </Frame>
-                        </VerticalStackLayout>
-
-                        <!--  Кнопка входа  -->
+                        <!-- Кнопка входа -->
                         <Button
-                            x:Name="LoginButton"
+                            Command="{Binding LoginCommand}"
                             BackgroundColor="#667eea"
                             CornerRadius="10"
-                            FontAttributes="Bold"
                             HeightRequest="50"
-                            Text="ВОЙТИ"
-                            Command="{Binding LoginCommand}"
+                            Text="Войти"
                             TextColor="White"/>
 
-                        <!--  Кнопка биометрии  -->
+                        <!-- Кнопка биометрии -->
                         <Button
-                            x:Name="BiometricButton"
+                            Command="{Binding BiometricLoginCommand}"
                             BackgroundColor="#F5F5F5"
                             CornerRadius="10"
                             HeightRequest="50"
+                            IsVisible="{Binding IsBiometricVisible}"
                             Text="Войти по биометрии"
-                            Command="{Binding BiometricLoginCommand}"
                             TextColor="#667eea"/>
 
-                        <!--  Ссылка восстановления  -->
-                        <Button
-                            BackgroundColor="Transparent"
-                            FontSize="12"
-                            HorizontalOptions="Center"
-                            Text="Забыли мастер-пароль?"
-                            TextColor="#999999"/>
+                        <!-- Индикатор загрузки -->
+                        <ActivityIndicator
+                            IsRunning="{Binding IsLoading}"
+                            IsVisible="{Binding IsLoading}"
+                            Color="#667eea"/>
 
-                        <!--  Индикатор ошибки  -->
+                        <!-- Сообщение об ошибке -->
                         <Label
-                            x:Name="ErrorMessageLabel"
+                            IsVisible="{Binding HasError}"
+                            Text="{Binding ErrorMessage}"
+                            TextColor="Red"
                             FontSize="12"
-                            HorizontalOptions="Center"
-                            IsVisible="False"
-                            Text=""
-                            TextColor="#FF4444"/>
-                    </VerticalStackLayout>
-                </Border>
+                            HorizontalOptions="Center"/>
 
-                <!--  Версия приложения  -->
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Версия -->
                 <Label
-                    Margin="0, 20, 0, 0"
                     FontSize="10"
                     HorizontalOptions="Center"
-                    Text="Версия 1.0.0"
-                    TextColor="#CCCCCC"/>
+                    Text="Версия 1.0"
+                    TextColor="White"
+                    Opacity="0.7"/>
             </VerticalStackLayout>
         </ScrollView>
     </Grid>

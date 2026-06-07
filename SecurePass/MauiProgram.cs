@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Maui.Biometric;
 using Microsoft.Extensions.Logging;
-using SecurePass.Core;
 using SecurePass.Core.Interfaces;
 using SecurePass.Core.Services;
 using SecurePass.Services;
@@ -26,28 +25,34 @@ namespace SecurePass
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // Регистрация сервисов
-            builder.Services.AddSingleton<INavigationService, NavigationService>();
-            builder.Services.AddSingleton<IShellService, ShellService>();
+            // ========== Регистрация сервисов Core ==========
+            builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
+            builder.Services.AddSingleton<IProjectService, ProjectService>();
+            builder.Services.AddSingleton<IPasswordManager, PasswordManager>();
+            builder.Services.AddSingleton<IBiometricService, BiometricService>();
+            builder.Services.AddSingleton<IPasswordGeneratorService, PasswordGeneratorService>();
 
-            // Регистрация страниц (View)
+            // Регистрируем ProjectStateManager как синглтон
+            builder.Services.AddSingleton<ProjectStateManager>();
+
+            builder.Services.AddSingleton<IShellService, ShellService>();
+            builder.Services.AddSingleton<IDialogService, DialogService>();
+
+            // ========== Регистрация страниц (View) ==========
             builder.Services.AddSingleton<StartPage>();
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddTransient<CreateAccountPage>();
+            builder.Services.AddTransient<EditAccountPage>();
+            builder.Services.AddTransient<SettingsPage>();
 
-            // Регистрация ViewModels
+            // ========== Регистрация ViewModels ==========
             builder.Services.AddTransient<StartPageVM>();
             builder.Services.AddTransient<MainVM>();
             builder.Services.AddTransient<CreateAccountVM>();
+            builder.Services.AddTransient<EditAccountVM>();
+            builder.Services.AddTransient<SettingsPageVM>();
 
-#if ANDROID
-            builder.Services.AddSingleton<IAppInfoService, AppInfoServiceAndroid>();
-#endif
-
-#if WINDOWS
-            builder.Services.AddSingleton<IAppInfoService, AppInfoServiceWindows>();
-#endif
-
+            // ========== Логирование ==========
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

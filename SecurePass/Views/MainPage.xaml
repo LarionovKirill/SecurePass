@@ -1,43 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="SecurePass.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    BackgroundColor="White">
+    Title="Мои пароли">
+
+    <!-- Привязываем системное событие Appearing страницы к нашей новой команде -->
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior 
+            EventName="Appearing" 
+            Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
 
     <Grid RowDefinitions="Auto, *, Auto" RowSpacing="10" Padding="10">
 
-        <!-- Поиск -->
         <SearchBar
             Grid.Row="0"
-            x:Name="SearchBar"
-            BackgroundColor="LightGray"
-            CancelButtonColor="Gray"
+            Text="{Binding SearchText}"
             Placeholder="Поиск паролей..."
             HeightRequest="50"/>
 
-        <!-- Список -->
         <CollectionView
             Grid.Row="1"
-            x:Name="PasswordsCollectionView"
-            ItemsSource="{Binding Accounts}"
+            ItemsSource="{Binding FilteredAccounts}"
             SelectedItem="{Binding SelectedAccount}"
+            SelectionChangedCommand="{Binding EditAccountCommand}"
             SelectionMode="Single">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid
-                        Padding="10"
-                        ColumnDefinitions="Auto, *"
-                        ColumnSpacing="15">
-
-                        <Grid.Behaviors>
-                            <toolkit:EventToCommandBehavior
-                                EventName="Tapped"
-                                Command="{Binding TestCommand}"/>           
-                        </Grid.Behaviors>
-
+                    <Grid Padding="10" ColumnDefinitions="Auto, *" ColumnSpacing="15">
                         <Frame
                             Grid.Column="0"
                             Padding="0"
@@ -52,25 +45,23 @@
                                 Source="{Binding IconSource}"
                                 VerticalOptions="Center"/>
                         </Frame>
-
                         <Label
                             Grid.Column="1"
                             FontAttributes="Bold"
                             FontSize="16"
-                            LineBreakMode="TailTruncation"
                             Text="{Binding Name}"
-                            VerticalOptions="Center"
-                            VerticalTextAlignment="Center"/>
+                            VerticalOptions="Center"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Кнопка внизу -->
         <Button 
             Grid.Row="2"
-            Command="{Binding GetAppsCommand}" 
+            Command="{Binding AddAccountCommand}"
             Text="Добавить пароль"
+            BackgroundColor="#667eea"
+            TextColor="White"
             HeightRequest="50"/>
 
     </Grid>

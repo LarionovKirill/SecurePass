@@ -7,18 +7,18 @@
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
-        <ShellContent
-            Title="Пароли"
-            ContentTemplate="{DataTemplate views:MainPage}"
-            Icon="lock_icon_128x128.png"
-            Route="StartPage"
-            Shell.NavBarIsVisible="False"/>
+        <Tab Title="Пароли" Icon="lock_icon_128x128.png">
+            <ShellContent
+                Title="Пароли"
+                ContentTemplate="{DataTemplate views:MainPage}"
+                Route="MainPage" />
+        </Tab>
 
-        <ShellContent
-            Title="Настройки"
-            ContentTemplate="{DataTemplate views:SettingsPage}"
-            Icon="gear_icon_128x128.png"
-            Route="SettingsPage"
-            Shell.NavBarIsVisible="False"/>
+        <Tab Title="Настройки" Icon="gear_icon_128x128.png">
+            <ShellContent
+                Title="Настройки"
+                ContentTemplate="{DataTemplate views:SettingsPage}"
+                Route="SettingsPage" />
+        </Tab>
     </TabBar>
 </Shell>

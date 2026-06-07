@@ -3,6 +3,7 @@
     x:Class="SecurePass.Views.CreateAccountPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:SecurePass.Controls"
     Title="Добавить пароль"
     NavigationPage.HasBackButton="True">
 
@@ -18,20 +19,17 @@
             Text="Сохранить"/>
     </ContentPage.ToolbarItems>
 
-    <!--  Основное содержимое страницы  -->
     <ScrollView Padding="24, 20, 24, 20">
         <VerticalStackLayout Spacing="20">
 
-            <!--  Блок: Сайт или приложение  -->
+            <!-- Блок: Сайт или приложение -->
             <VerticalStackLayout Spacing="8">
-                <!--  Ярлык  -->
                 <Label
                     FontAttributes="Bold"
                     FontSize="14"
                     Text="Сайт или приложение"
                     TextColor="{DynamicResource SecondaryTextColor}"/>
 
-                <!--  Поле для ввода сайта  -->
                 <Entry
                     x:Name="WebsiteOrAppEntry"
                     Margin="0, 0, 12, 0"
@@ -42,16 +40,22 @@
                     TextColor="{DynamicResource PrimaryTextColor}">
                     <Entry.HeightRequest>48</Entry.HeightRequest>
                 </Entry>
-                <Button Text="Выбрать приложение"/>
+
+                <!-- Исправлено: добавлена команда -->
+                <Button 
+                    Command="{Binding PickAppCommand}" 
+                    Text="Выбрать приложение"
+                    BackgroundColor="{DynamicResource SecondaryButtonColor}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
             </VerticalStackLayout>
 
-            <!--  Горизонтальный разделитель  -->
+            <!-- Горизонтальный разделитель -->
             <BoxView
                 Margin="0, 10, 0, 10"
-                HeightRequest="3"
+                HeightRequest="1"
                 Color="{DynamicResource SeparatorColor}"/>
 
-            <!--  Дополнительные поля для пароля (можно добавить по желанию)  -->
+            <!-- Логин / Email -->
             <VerticalStackLayout Spacing="8">
                 <Label
                     FontAttributes="Bold"
@@ -69,26 +73,23 @@
                     TextColor="{DynamicResource PrimaryTextColor}"/>
             </VerticalStackLayout>
 
+            <!-- Пароль -->
             <VerticalStackLayout Spacing="8">
                 <Label
                     FontAttributes="Bold"
                     FontSize="14"
                     Text="Пароль"
                     TextColor="{DynamicResource SecondaryTextColor}"/>
+                <controls:PasswordEntry Text="{Binding Password}"/>
 
-                <Entry
-                    x:Name="PasswordEntry"
-                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
-                    HeightRequest="48"
-                    IsPassword="True"
-                    Placeholder="Введите пароль"
-                    PlaceholderColor="{DynamicResource PlaceholderColor}"
-                    Text="{Binding Password}"
+                <Button 
+                    Command="{Binding GeneratePasswordCommand}" 
+                    Text="Сгенерировать пароль"
+                    BackgroundColor="{DynamicResource SecondaryButtonColor}"
                     TextColor="{DynamicResource PrimaryTextColor}"/>
-
-                <Button Command="{Binding GeneratePasswordCommand}" Text="Сгенерировать пароль"/>
             </VerticalStackLayout>
 
+            <!-- Заметки -->
             <VerticalStackLayout Spacing="8">
                 <Label
                     FontAttributes="Bold"
@@ -105,6 +106,16 @@
                     Text="{Binding Description}"
                     TextColor="{DynamicResource PrimaryTextColor}"/>
             </VerticalStackLayout>
+
+            <!-- Индикатор ошибки -->
+            <Label
+                x:Name="ErrorMessageLabel"
+                IsVisible="{Binding HasError}"
+                Text="{Binding ErrorMessage}"
+                TextColor="Red"
+                FontSize="12"
+                HorizontalOptions="Center"/>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

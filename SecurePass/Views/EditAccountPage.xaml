@@ -3,18 +3,118 @@
     x:Class="SecurePass.Views.EditAccountPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="EditAccountPage">
+    Title="Редактировать пароль"
+    NavigationPage.HasBackButton="True">
 
-    <VerticalStackLayout>
-        <Label Text="Название приложения"/>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding SaveCommand}"
+            Order="Primary"
+            Priority="0"
+            Text="Сохранить"/>
+    </ContentPage.ToolbarItems>
 
-        <Entry Placeholder="Login"/>
-        <Entry Placeholder="Password"/>
-        <Entry Placeholder="Примечание"/>
+    <ScrollView Padding="24, 20, 24, 20">
+        <VerticalStackLayout Spacing="20">
 
-        <HorizontalStackLayout>
-            <Button Text="Изменить"/>
-            <Button Text="Удалить"/>
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+            <!-- Название приложения -->
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Сайт или приложение"
+                    TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                <Entry
+                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
+                    HeightRequest="48"
+                    Placeholder="Введите название"
+                    PlaceholderColor="{DynamicResource PlaceholderColor}"
+                    Text="{Binding Account.Name}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+
+            <BoxView
+                Margin="0, 10, 0, 10"
+                HeightRequest="1"
+                Color="{DynamicResource SeparatorColor}"/>
+
+            <!-- Логин -->
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Логин / Email"
+                    TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                <Entry
+                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
+                    HeightRequest="48"
+                    Placeholder="Введите логин или email"
+                    PlaceholderColor="{DynamicResource PlaceholderColor}"
+                    Text="{Binding Account.Login}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+
+            <!-- Пароль -->
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Пароль"
+                    TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                <Entry
+                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
+                    HeightRequest="48"
+                    IsPassword="True"
+                    Placeholder="Введите пароль"
+                    PlaceholderColor="{DynamicResource PlaceholderColor}"
+                    Text="{Binding Account.Password}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
+
+                <Button 
+                    Command="{Binding GeneratePasswordCommand}" 
+                    Text="Сгенерировать новый пароль"
+                    BackgroundColor="{DynamicResource SecondaryButtonColor}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+
+            <!-- Заметки -->
+            <VerticalStackLayout Spacing="8">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Заметки (необязательно)"
+                    TextColor="{DynamicResource SecondaryTextColor}"/>
+
+                <Editor
+                    AutoSize="TextChanges"
+                    BackgroundColor="{DynamicResource EntryBackgroundColor}"
+                    Placeholder="Дополнительная информация..."
+                    PlaceholderColor="{DynamicResource PlaceholderColor}"
+                    Text="{Binding Account.Description}"
+                    TextColor="{DynamicResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+
+            <!-- Кнопка удаления -->
+            <Button 
+                Command="{Binding DeleteCommand}"
+                Text="Удалить пароль"
+                BackgroundColor="#FF4444"
+                TextColor="White"
+                HeightRequest="50"
+                CornerRadius="10"
+                Margin="0, 20, 0, 0"/>
+
+            <!-- Индикатор ошибки -->
+            <Label
+                IsVisible="{Binding HasError}"
+                Text="{Binding ErrorMessage}"
+                TextColor="Red"
+                FontSize="12"
+                HorizontalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

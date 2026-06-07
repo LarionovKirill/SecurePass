@@ -1,63 +1,42 @@
 ﻿namespace SecurePass.Core.Models;
 
-/// <summary>
-/// Учетная запись.
-/// </summary>
 public class Account
 {
-    public Account(string name, string login, string password)
+    public Account()
+    {
+        Id = Guid.NewGuid().ToString();
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public Account(string name, string login, string password) : this()
     {
         Name = name;
         Login = login;
         Password = password;
     }
 
-    public Account(string name, string login, string password, string url)
+    public Account(string name, string login, string password, string url) : this(name, login, password)
     {
-        Name = name;
-        Login = login;
-        Password = password;
         WebsiteUrl = url;
     }
 
-
-    /// <summary>
-    /// ID записи.
-    /// </summary>
-    public string Id { get; set; } 
-
-    /// <summary>
-    /// Название записи.
-    /// </summary>
-    public string Name { get; set; }
-    
-    /// <summary>
-    /// Url до ресурса.
-    /// </summary>
-    public string WebsiteUrl { get; set; }  
-    
-    /// <summary>
-    /// Логин
-    /// </summary>
-    public string Login { get; set; }
-    
-    /// <summary>
-    /// Пароль.
-    /// </summary>
-    public string Password { get; set; }
-
-    /// <summary>
-    /// Доп информация записи.
-    /// </summary>
-    public string Description { get; set; }
-
-    /// <summary>
-    /// Дата создания записи.
-    /// </summary>
+    public string Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string WebsiteUrl { get; set; } = string.Empty;
+    public string Login { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
-
-    /// <summary>
-    /// Дата изменения записи.
-    /// </summary>
     public DateTime UpdatedAt { get; set; }
+
+    public void UpdateFrom(Account other)
+    {
+        Name = other.Name;
+        WebsiteUrl = other.WebsiteUrl;
+        Login = other.Login;
+        Password = other.Password;
+        Description = other.Description;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

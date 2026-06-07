@@ -3,36 +3,47 @@
     x:Class="SecurePass.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:controls="clr-namespace:SecurePass.Controls">
-    <VerticalStackLayout Margin="5, 5, 5, 0">
+    xmlns:controls="clr-namespace:SecurePass.Controls"
+    Title="Настройки">
+
+    <VerticalStackLayout Margin="20" Spacing="16">
         <Label
-            HorizontalOptions="Start"
+            FontAttributes="Bold"
+            FontSize="16"
             Text="Настройки генерации пароля"
-            VerticalOptions="Center"/>
+            TextColor="{DynamicResource PrimaryTextColor}"/>
 
-        <controls:SwitchWithLabel IsSwitched="True" Text="Использовать специальные символы"/>
+        <controls:SwitchWithLabel 
+            IsSwitched="{Binding UseSpecialChars}" 
+            Text="Использовать специальные символы"/>
 
-        <controls:SwitchWithLabel IsSwitched="True" Text="Использовать заглавые буквы"/>
+        <controls:SwitchWithLabel 
+            IsSwitched="{Binding UseUppercase}" 
+            Text="Использовать заглавные буквы"/>
 
-        <controls:SwitchWithLabel IsSwitched="True" Text="Использовать строчные буквы"/>
+        <controls:SwitchWithLabel 
+            IsSwitched="{Binding UseLowercase}" 
+            Text="Использовать строчные буквы"/>
 
-        <controls:SwitchWithLabel IsSwitched="True" Text="Использовать цифры"/>
+        <controls:SwitchWithLabel 
+            IsSwitched="{Binding UseDigits}" 
+            Text="Использовать цифры"/>
 
         <Label
-            HorizontalOptions="Start"
+            FontAttributes="Bold"
+            FontSize="14"
             Text="Длина пароля"
-            VerticalOptions="Center"/>
+            TextColor="{DynamicResource PrimaryTextColor}"/>
 
-        <BoxView
-            BackgroundColor="#e0e2ef"
-            HeightRequest="10"
-            HorizontalOptions="Fill"/>
+        <Slider
+            Maximum="32"
+            Minimum="6"
+            Value="{Binding PasswordLength}"/>
 
-        <Switch IsToggled="True"/>
-
-        <Label
-            HorizontalOptions="Start"
-            Text="Использовать спец. символы"
-            VerticalOptions="Center"/>
+        <Label 
+            FontSize="14"
+            HorizontalOptions="Center"
+            Text="{Binding PasswordLength, StringFormat='Длина: {0}'}"
+            TextColor="{DynamicResource SecondaryTextColor}"/>
     </VerticalStackLayout>
 </ContentPage>

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using SecurePass.Core.Interfaces;
 using SecurePass.Core.Models;
 using SecurePass.Core.Services;
 using SecurePass.VM.Messages;
@@ -9,61 +10,93 @@ namespace SecurePass.VM.ViewModels;
 
 public partial class CreateAccountVM : ObservableObject
 {
-    public CreateAccountVM() 
+    private readonly IPasswordGeneratorService _passwordGenerator;
+    private readonly ProjectManager _projectManager;
+
+    [ObservableProperty]
+    private string _appName = string.Empty;
+
+    [ObservableProperty]
+    private string _login = string.Empty;
+
+    [ObservableProperty]
+    private string _password = string.Empty;
+
+    [ObservableProperty]
+    private string _description = string.Empty;
+
+    [ObservableProperty]
+    private bool _hasError;
+
+    [ObservableProperty]
+    private string _errorMessage = string.Empty;
+
+    public CreateAccountVM(
+        IPasswordGeneratorService passwordGenerator,
+        ProjectStateManager projectStateManager)
     {
+        _passwordGenerator = passwordGenerator;
+        _projectManager = projectStateManager.CurrentProject;
     }
 
-    [ObservableProperty]
-    private string _appName;
-
-    [ObservableProperty]
-    private string _login;
-
-    [ObservableProperty]
-    private string _password;
-
-    [ObservableProperty]
-    private string _description;
-
     [RelayCommand]
-    private void GeneratePassword()
+    private async Task GeneratePassword()
     {
-        var generator = new PasswordGeneratorService();
-        var options = new PasswordGeneratorOptions()
-        {
-            Length = 10,
-            UseCapitalLetters = true,
-            UseDigits = true,
-            UseSpecialCharacters = true,
-            UseLowercaseLetters = true,
-        };
-
-        Password = generator.GeneratePassword(options);
+        Password = _passwordGenerator.GeneratePassword(_projectManager.PasswordGeneratorOptions);
     }
 
     [RelayCommand]
     private async Task CreateAccount()
     {
-        var newAccount = new Account(AppName, Login, Password)
+        if (string.IsNullOrWhiteSpace(AppName))
         {
-            Description = Description,
+            ShowError("Введите название сайта или приложения");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(Login))
+        {
+            ShowError("Введите логин или email");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(Password))
+        {
+            ShowError("Введите пароль");
+            return;
+        }
+
+        HasError = false;
+        ErrorMessage = string.Empty;
+
+        var newAccount = new Account(AppName.Trim(), Login.Trim(), Password)
+        {
+            Description = Description?.Trim() ?? string.Empty
         };
+
         WeakReferenceMessenger.Default.Send(new CreateAccountMessage(newAccount));
         await Shell.Current.GoToAsync("..");
     }
 
-    public bool HasChanged()
+    private void ShowError(string message)
     {
-        return (
-            !string.IsNullOrEmpty(Login) || 
-            !string.IsNullOrEmpty(Password) || 
-            !string.IsNullOrEmpty(Description)||
-            !string.IsNullOrEmpty(AppName));
+        HasError = true;
+        ErrorMessage = message;
     }
 
-    [RelayCommand]
-    private async Task GoBack()
+    public bool HasChanged()
     {
-        await Shell.Current.GoToAsync("..");
+        return !string.IsNullOrWhiteSpace(Login) ||
+               !string.IsNullOrWhiteSpace(Password) ||
+               !string.IsNullOrWhiteSpace(Description) ||
+               !string.IsNullOrWhiteSpace(AppName);
+    }
+
+
+    [RelayCommand]
+    private async Task PickApp()
+    {
+        await Shell.Current.DisplayAlert("Выбор приложения",
+            "Эта функция будет доступна в следующей версии", "OK");
     }
 }

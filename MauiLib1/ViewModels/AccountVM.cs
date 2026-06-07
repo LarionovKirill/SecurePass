@@ -3,29 +3,24 @@ using SecurePass.Core.Models;
 
 namespace SecurePass.VM.ViewModels;
 
-/// <summary>
-/// Модель представления учетной записи.
-/// </summary>
-public class AccountVM : ObservableObject
+public partial class AccountVM : ObservableObject
 {
-    /// <summary>
-    /// Учетная запись.
-    /// </summary>
     private readonly Account _account;
 
-    /// <summary>
-    /// Создает объект класса <see cref="AccountVM"/>.
-    /// </summary>
-    /// <param name="account">Учетная запись.</param>
     public AccountVM(Account account)
     {
         _account = account;
     }
 
     public string Name => _account.Name;
+    public string Login => _account.Login;
+    public string Password => _account.Password;
+    public string Description => _account.Description;
+    public string Id => _account.Id;
 
-    public override string ToString()
-    {
-        return _account.Name;
-    }
+    public Account GetAccount() => _account;
+
+    public string IconSource => "key_icon_128x128.png";
+
+    public override string ToString() => Name;
 }

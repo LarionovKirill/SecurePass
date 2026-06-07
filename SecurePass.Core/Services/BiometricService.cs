@@ -1,42 +1,33 @@
 ﻿using Maui.Biometric;
 using Maui.Biometric.Abstractions;
+using SecurePass.Core.Interfaces;
 
 namespace SecurePass.Core.Services;
 
-public class BiometricService
+public class BiometricService : IBiometricService
 {
-    /// <summary>
-    /// Проверяет, что на устройстве можно использовать биометрию.
-    /// </summary>
-    /// <returns>True, если имеется поддержка биометрии.</returns>
-    public static async Task<bool> IsBiometicAvaliable()
+    public async Task<bool> IsBiometricAvailableAsync()
     {
-        var type = await BiometricAuthentication.Current.GetAuthenticationTypeAsync();
-        if (type is AuthenticationType.Fingerprint or AuthenticationType.Face)
+        try
         {
-            return true;
+            var type = await BiometricAuthentication.Current.GetAuthenticationTypeAsync();
+            return type is AuthenticationType.Fingerprint or AuthenticationType.Face;
         }
-
-        return false;
-/*        await BiometricAuthentication.Current.IsAvailableAsync();*/
+        catch
+        {
+            return false;
+        }
     }
 
-    /// <summary>
-    /// Проверяет биометрию пользователя.
-    /// </summary>
-    /// <returns>True, если биометрия совпадает, иначе false.</returns>
-    public static async Task<bool> CheckBiometric()
+    public async Task<bool> AuthenticateAsync(string reason = "Подтвердите вашу личность для входа")
     {
-        var result = await BiometricAuthentication.Current.AuthenticateAsync(new AuthenticationRequest
-            (
-            "Авторизация",
-            "Подтвердите вашу личность для входа"));
-
-        if (result.Authenticated)
+        try
         {
-            return true;
+            var result = await BiometricAuthentication.Current.AuthenticateAsync(
+                new AuthenticationRequest("Авторизация", reason));
+            return result.Authenticated;
         }
-        else
+        catch
         {
             return false;
         }
