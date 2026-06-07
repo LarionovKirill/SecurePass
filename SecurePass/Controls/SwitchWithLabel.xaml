@@ -2,18 +2,19 @@
 <ContentView
     x:Class="SecurePass.Controls.SwitchWithLabel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="SwitchWithLabelControl">
     <Grid ColumnDefinitions="Auto, *, Auto">
         <Label
             Grid.Column="0"
             HorizontalOptions="Start"
-            Text="{Binding Path=Text, Mode=OneWay}"
+            Text="{Binding Text, Source={x:Reference SwitchWithLabelControl}}"
             VerticalOptions="Center"/>
 
         <Switch
             Grid.Column="2"
             HorizontalOptions="End"
-            IsToggled="{Binding Path=IsSwitched, Mode=Default}"
+            IsToggled="{Binding IsSwitched, Source={x:Reference SwitchWithLabelControl}}"
             VerticalOptions="Center"/>
     </Grid>
 </ContentView>
